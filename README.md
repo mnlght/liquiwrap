@@ -3,7 +3,7 @@
 A set of tools to retrieve tournament and match information from liquipedia.net. Written for https://gorn.pw/.
 
 ```sh
-    go get github.com/mnlght/liquiwrap
+go get github.com/mnlght/liquiwrap
 ```
 
 ## List of use cases
