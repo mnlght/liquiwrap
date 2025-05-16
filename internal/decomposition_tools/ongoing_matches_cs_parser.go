@@ -154,7 +154,6 @@ func OngoingMatchesCSPickOut(r io.Reader) ([]content.OngoingMatch, error) {
 						scoreSeekMode = true
 					}
 					if GetElAttribute("class", token.Attr) == "versus-lowe" {
-						fmt.Println("versus-lower - ", "counterstrike")
 
 					}
 					if MatchElClassByRegExp("team-right", token.Attr) {

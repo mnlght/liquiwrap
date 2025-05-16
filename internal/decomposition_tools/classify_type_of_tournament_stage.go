@@ -1,7 +1,6 @@
 package decomposition_tools
 
 import (
-	"fmt"
 	"golang.org/x/net/html"
 	"io"
 	"regexp"
@@ -64,7 +63,6 @@ func ClassifyTypeOfTournamentStage(r io.Reader) (map[string]ClassifiedStage, err
 			if waitHref {
 				if token.Data == "a" {
 					if href := GetElHref(token.Attr); href != "" {
-						fmt.Println(href)
 						externalLink = href
 						matchTables[currentTableIndex-1].ExternalLink = externalLink
 						externalLink = ""

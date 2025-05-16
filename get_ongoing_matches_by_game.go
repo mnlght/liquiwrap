@@ -50,7 +50,7 @@ func (g *GetOngoingMatchesByGame) getForCS() ([]content.OngoingMatch, error) {
 	}
 	minifiedPageContent, err := minify.HTML(string(pageContent))
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
 
 	res, err := decomposition_tools.OngoingMatchesCSPickOut(strings.NewReader(minifiedPageContent))

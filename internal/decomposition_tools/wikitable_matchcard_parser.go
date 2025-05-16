@@ -2,7 +2,6 @@ package decomposition_tools
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/mnlght/liquiwrap/content"
 	"golang.org/x/net/html"
 )
@@ -15,7 +14,6 @@ func WikitableMatchcardMatchesPickOut(mccontent MatchTable) ([]content.Completed
 	var seekTDMode bool
 	var trCounter int
 
-	fmt.Println("mc type found")
 	for i := 0; i < len(mccontent.TokenContent); i++ {
 		if i == len(mccontent.TokenContent)-1 {
 

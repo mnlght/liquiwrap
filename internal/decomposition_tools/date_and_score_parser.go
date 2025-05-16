@@ -70,7 +70,6 @@ func GetMetaMatchDateWithTime(date string) *MetaTournamentDate {
 		}
 		minute, err := strconv.Atoi(strings.Replace(ts[1], " ", "", -1))
 		if err != nil {
-			fmt.Println(err)
 			return m
 		}
 		nde := de.Add(time.Hour*time.Duration(hour) + time.Minute*time.Duration(minute))
@@ -86,7 +85,6 @@ func GetMetaMatchDateWithTime(date string) *MetaTournamentDate {
 
 func GetMetaTournamentDate(date string) *MetaTournamentDate {
 	m := &MetaTournamentDate{}
-	fmt.Println(date)
 	qs := strings.Split(date, ",")
 
 	var year int

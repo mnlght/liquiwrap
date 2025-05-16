@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/mnlght/liquiwrap/content"
 	"github.com/mnlght/liquiwrap/internal"
-	decomposition_tools2 "github.com/mnlght/liquiwrap/internal/decomposition_tools"
+	"github.com/mnlght/liquiwrap/internal/decomposition_tools"
 	"strings"
 )
 
@@ -27,7 +27,7 @@ func (g *GetCurrentStateOfTheTournament) Action() ([]content.CompletedMatch, err
 		return nil, err
 	}
 
-	mts, err := decomposition_tools2.ClassifyTypeOfTournamentStage(strings.NewReader(string(pageContent)))
+	mts, err := decomposition_tools.ClassifyTypeOfTournamentStage(strings.NewReader(string(pageContent)))
 	if err != nil {
 		return nil, err
 	}
@@ -41,8 +41,8 @@ func (g *GetCurrentStateOfTheTournament) Action() ([]content.CompletedMatch, err
 				return nil, err
 			}
 
-			stagesExternal, err := decomposition_tools2.ClassifyTypeOfTournamentStage(strings.NewReader(string(pageContentExternal)))
-			var allExternalMatchBlocks []decomposition_tools2.MatchTable
+			stagesExternal, err := decomposition_tools.ClassifyTypeOfTournamentStage(strings.NewReader(string(pageContentExternal)))
+			var allExternalMatchBlocks []decomposition_tools.MatchTable
 			for _, se := range stagesExternal {
 				allExternalMatchBlocks = append(allExternalMatchBlocks, se.MatchTables...)
 			}
@@ -62,7 +62,7 @@ func (g *GetCurrentStateOfTheTournament) Action() ([]content.CompletedMatch, err
 	return result, nil
 }
 
-func (g *GetCurrentStateOfTheTournament) seekMatchesInPage(mt []decomposition_tools2.MatchTable) ([]content.CompletedMatch, error) {
+func (g *GetCurrentStateOfTheTournament) seekMatchesInPage(mt []decomposition_tools.MatchTable) ([]content.CompletedMatch, error) {
 	var matches []content.CompletedMatch
 
 	//1 приоритет
@@ -70,14 +70,11 @@ func (g *GetCurrentStateOfTheTournament) seekMatchesInPage(mt []decomposition_to
 		//это отдельные таблицы с пиками/банами https://liquipedia.net/dota2/DreamLeague/Season_24/Group_Stage_1#Matches
 		//плюс спаренные таблицы по кс - https://liquipedia.net/counterstrike/BLAST/Premier/2024/World_Final (Group stage)
 		if v.Type == "bm" {
-			fmt.Println("bm found")
 			for _, iv := range mt {
 				if iv.Type == "bm" {
-					bm, err := decomposition_tools2.BrktsMatchlistMatchesPickOut(iv, g.Game)
-					fmt.Println(len(bm))
+					bm, err := decomposition_tools.BrktsMatchlistMatchesPickOut(iv, g.Game)
 					if err != nil {
-						fmt.Println(err)
-						panic("")
+						return nil, err
 					}
 					matches = append(matches, bm...)
 				}
@@ -91,13 +88,11 @@ func (g *GetCurrentStateOfTheTournament) seekMatchesInPage(mt []decomposition_to
 	for _, v := range mt {
 		//это контент турнирной сетки в виде подтаблицы с пиками/банами https://liquipedia.net/dota2/DreamLeague/Season_24 (плейофф)
 		if v.Type == "br" {
-			fmt.Println("brfound")
 			for _, iv := range mt {
-				bm, err := decomposition_tools2.BrktsBracketMatchesPickOut(iv, g.Game)
+				bm, err := decomposition_tools.BrktsBracketMatchesPickOut(iv, g.Game)
 
 				if err != nil {
-					fmt.Println(err)
-					panic("")
+					return nil, err
 				}
 				if iv.Type == "br" {
 					matches = append(matches, bm...)
@@ -111,14 +106,11 @@ func (g *GetCurrentStateOfTheTournament) seekMatchesInPage(mt []decomposition_to
 	for _, v := range mt {
 		//грубая попытка спарсить турнирную таблицу по таблице https://liquipedia.net/dota2/DreamLeague/Season_24 (playoff show shedule)
 		if v.Type == "mc" {
-			fmt.Println("mc")
-			mr, err := decomposition_tools2.WikitableMatchcardMatchesPickOut(v)
+			mr, err := decomposition_tools.WikitableMatchcardMatchesPickOut(v)
 			if err != nil {
-				fmt.Println(err)
-				panic("")
+				return nil, err
 			}
 
-			//fmt.Println("MR MATCHES", mr)
 			matches = append(matches, mr...)
 
 			return matches, nil
@@ -129,13 +121,11 @@ func (g *GetCurrentStateOfTheTournament) seekMatchesInPage(mt []decomposition_to
 	for _, v := range mt {
 		//швейцарская система
 		if v.Type == "sw" {
-			sw, err := decomposition_tools2.WikitableSwisstableMatchesPickOut(v)
+			sw, err := decomposition_tools.WikitableSwisstableMatchesPickOut(v)
 			if err != nil {
-				fmt.Println(err)
-				panic("")
+				return nil, err
 			}
 
-			//fmt.Println("SWISS MATCHES", sw)
 			matches = append(matches, sw...)
 
 			return matches, nil
@@ -146,13 +136,11 @@ func (g *GetCurrentStateOfTheTournament) seekMatchesInPage(mt []decomposition_to
 	for _, v := range mt {
 		//грубая попытка спарсить таблицу с пересечениями https://liquipedia.net/dota2/DreamLeague/Season_24 (group A)
 		if v.Type == "cr" {
-			cr, err := decomposition_tools2.TableCrosstableMatchesPickOut(v)
+			cr, err := decomposition_tools.TableCrosstableMatchesPickOut(v)
 			if err != nil {
-				fmt.Println(err)
-				panic("")
+				return nil, err
 			}
 
-			//fmt.Println("CROSS MATCHES", cr)
 			matches = append(matches, cr...)
 
 			return matches, nil
