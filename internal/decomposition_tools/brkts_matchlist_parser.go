@@ -4,14 +4,14 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
-	"github.com/mnlght/liquiwrap"
+	"github.com/mnlght/liquiwrap/content"
 	"golang.org/x/net/html"
 	"strings"
 )
 
-func BrktsMatchlistMatchesPickOut(mccontent MatchTable, game string) ([]liquiwrap.CompletedMatch, error) {
-	var matches []liquiwrap.CompletedMatch
-	var el liquiwrap.CompletedMatch
+func BrktsMatchlistMatchesPickOut(mccontent MatchTable, game string) ([]content.CompletedMatch, error) {
+	var matches []content.CompletedMatch
+	var el content.CompletedMatch
 	var inMatchSeekMode bool
 	var opponentIndex int
 	var opponentSeek bool
@@ -32,8 +32,8 @@ func BrktsMatchlistMatchesPickOut(mccontent MatchTable, game string) ([]liquiwra
 	var bansThumbsIndex int
 	var tr int
 
-	combineCh := make(chan liquiwrap.CompletedMatch)
-	combinedCh := make(chan []liquiwrap.CompletedMatch)
+	combineCh := make(chan content.CompletedMatch)
+	combinedCh := make(chan []content.CompletedMatch)
 
 	go func() {
 		for v := range combineCh {
@@ -229,7 +229,7 @@ func BrktsMatchlistMatchesPickOut(mccontent MatchTable, game string) ([]liquiwra
 							//matches = append(matches, el)
 						}
 
-						el = liquiwrap.CompletedMatch{}
+						el = content.CompletedMatch{}
 						if inMatchSeekMode == false {
 							inMatchSeekMode = true
 						}

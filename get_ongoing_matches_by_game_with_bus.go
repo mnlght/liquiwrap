@@ -3,6 +3,7 @@ package liquiwrap
 import (
 	"errors"
 	"fmt"
+	"github.com/mnlght/liquiwrap/content"
 	"github.com/mnlght/liquiwrap/internal"
 	"github.com/mnlght/liquiwrap/internal/decomposition_tools"
 	"github.com/tdewolff/minify/v2/minify"
@@ -19,7 +20,7 @@ func NewGetOngoingMatchesByGameWithBus(game string, tier int, bus *LiquipediaBus
 	return &GetOngoingMatchesByGameWithBus{Game: game, Tier: tier, bus: bus}
 }
 
-func (g *GetOngoingMatchesByGameWithBus) Action() ([]OngoingMatch, error) {
+func (g *GetOngoingMatchesByGameWithBus) Action() ([]content.OngoingMatch, error) {
 	if g.Game == "counterstrike" {
 		return g.getForCS()
 	}
@@ -42,7 +43,7 @@ func (g *GetOngoingMatchesByGameWithBus) formLQFilter() string {
 	return ""
 }
 
-func (g *GetOngoingMatchesByGameWithBus) getForCS() ([]OngoingMatch, error) {
+func (g *GetOngoingMatchesByGameWithBus) getForCS() ([]content.OngoingMatch, error) {
 	pz := internal.NewLiquipediaPageClient("/counterstrike/Liquipedia:Matches")
 	pageContent, err := pz.Do()
 	if err != nil {
@@ -60,7 +61,7 @@ func (g *GetOngoingMatchesByGameWithBus) getForCS() ([]OngoingMatch, error) {
 	return res, nil
 }
 
-func (g *GetOngoingMatchesByGameWithBus) getForParsebleGame(filter string) ([]OngoingMatch, error) {
+func (g *GetOngoingMatchesByGameWithBus) getForParsebleGame(filter string) ([]content.OngoingMatch, error) {
 	ongoingMatchesRespCh := make(chan LiquipediaResponse)
 	g.bus.AddRequest(&LiquipediaRequest{
 		Game: g.Game,

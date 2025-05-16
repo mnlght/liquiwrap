@@ -1,4 +1,4 @@
-package liquiwrap
+package content
 
 import "time"
 

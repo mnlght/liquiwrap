@@ -2,6 +2,7 @@ package liquiwrap
 
 import (
 	"fmt"
+	"github.com/mnlght/liquiwrap/content"
 	"github.com/mnlght/liquiwrap/internal"
 	"github.com/mnlght/liquiwrap/internal/decomposition_tools"
 	"strings"
@@ -15,7 +16,7 @@ func NewGetTournamentListByUrl(url string) *GetTournamentListByUrl {
 	return &GetTournamentListByUrl{Url: url}
 }
 
-func (g *GetTournamentListByUrl) Action() ([]Tournament, error) {
+func (g *GetTournamentListByUrl) Action() ([]content.Tournament, error) {
 	meta, err := decomposition_tools.GetMetaFromUrl(g.Url)
 	if err != nil {
 		return nil, err

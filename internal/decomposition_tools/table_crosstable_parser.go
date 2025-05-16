@@ -2,12 +2,12 @@ package decomposition_tools
 
 import (
 	"fmt"
-	"github.com/mnlght/liquiwrap"
+	"github.com/mnlght/liquiwrap/content"
 	"golang.org/x/net/html"
 )
 
-func TableCrosstableMatchesPickOut(mccontent MatchTable) ([]liquiwrap.CompletedMatch, error) {
-	var matches []liquiwrap.CompletedMatch
+func TableCrosstableMatchesPickOut(mccontent MatchTable) ([]content.CompletedMatch, error) {
+	var matches []content.CompletedMatch
 	var line []string
 	for i := 0; i < len(mccontent.TokenContent); i++ {
 		if mccontent.TokenContent[i].Type == html.StartTagToken {
@@ -67,7 +67,7 @@ func TableCrosstableMatchesPickOut(mccontent MatchTable) ([]liquiwrap.CompletedM
 				}
 
 				if _, ok := excMap[fmt.Sprintf("%s-%s", teamRight, line[teamIndex])]; !ok {
-					matches = append(matches, liquiwrap.CompletedMatch{
+					matches = append(matches, content.CompletedMatch{
 						TeamLeft:  teamRight,
 						TeamRight: line[teamIndex],
 						Score:     BatchScore(GetElClass(mccontent.TokenContent[i].Attr)),

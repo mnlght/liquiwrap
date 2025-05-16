@@ -2,6 +2,7 @@ package liquiwrap
 
 import (
 	"fmt"
+	"github.com/mnlght/liquiwrap/content"
 	"github.com/mnlght/liquiwrap/internal"
 	decomposition_tools2 "github.com/mnlght/liquiwrap/internal/decomposition_tools"
 	"strings"
@@ -19,7 +20,7 @@ func NewGetCurrentStateOfTheTournament(game string, url string) *GetCurrentState
 	}
 }
 
-func (g *GetCurrentStateOfTheTournament) Action() ([]CompletedMatch, error) {
+func (g *GetCurrentStateOfTheTournament) Action() ([]content.CompletedMatch, error) {
 	p := internal.NewLiquipediaPageClient(fmt.Sprintf("/%s/%s", g.Game, g.Url))
 	pageContent, err := p.Do()
 	if err != nil {
@@ -31,7 +32,7 @@ func (g *GetCurrentStateOfTheTournament) Action() ([]CompletedMatch, error) {
 		return nil, err
 	}
 
-	var result []CompletedMatch
+	var result []content.CompletedMatch
 	for _, v := range mts {
 		if v.External {
 			pz := internal.NewLiquipediaPageClient(v.ExternalLink)
@@ -61,8 +62,8 @@ func (g *GetCurrentStateOfTheTournament) Action() ([]CompletedMatch, error) {
 	return result, nil
 }
 
-func (g *GetCurrentStateOfTheTournament) seekMatchesInPage(mt []decomposition_tools2.MatchTable) ([]CompletedMatch, error) {
-	var matches []CompletedMatch
+func (g *GetCurrentStateOfTheTournament) seekMatchesInPage(mt []decomposition_tools2.MatchTable) ([]content.CompletedMatch, error) {
+	var matches []content.CompletedMatch
 
 	//1 приоритет
 	for _, v := range mt {

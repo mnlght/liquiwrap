@@ -4,18 +4,18 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
-	"github.com/mnlght/liquiwrap"
+	"github.com/mnlght/liquiwrap/content"
 	"golang.org/x/net/html"
 	"io"
 	"strconv"
 	"strings"
 )
 
-func OngoingMatchesCSPickOut(r io.Reader) ([]liquiwrap.OngoingMatch, error) {
+func OngoingMatchesCSPickOut(r io.Reader) ([]content.OngoingMatch, error) {
 	tokenizer := html.NewTokenizer(r)
 	var err error
-	var matches []liquiwrap.OngoingMatch
-	var el liquiwrap.OngoingMatch
+	var matches []content.OngoingMatch
+	var el content.OngoingMatch
 	var inMatchSeekMode bool
 	var teamleftSeekMode bool
 	var teamrightSeekMode bool
@@ -26,8 +26,8 @@ func OngoingMatchesCSPickOut(r io.Reader) ([]liquiwrap.OngoingMatch, error) {
 	var scoreStr []string
 	var divScoreCount int
 
-	combineCh := make(chan liquiwrap.OngoingMatch)
-	combinedCh := make(chan []liquiwrap.OngoingMatch)
+	combineCh := make(chan content.OngoingMatch)
+	combinedCh := make(chan []content.OngoingMatch)
 
 	go func() {
 		am := make(map[string]bool)
@@ -126,7 +126,7 @@ func OngoingMatchesCSPickOut(r io.Reader) ([]liquiwrap.OngoingMatch, error) {
 						//matches = append(matches, el)
 					}
 
-					el = liquiwrap.OngoingMatch{
+					el = content.OngoingMatch{
 						Game: "counterstrike",
 					}
 					if inMatchSeekMode == false {

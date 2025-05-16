@@ -2,12 +2,12 @@ package decomposition_tools
 
 import (
 	"encoding/json"
-	"github.com/mnlght/liquiwrap"
+	"github.com/mnlght/liquiwrap/content"
 	"golang.org/x/net/html"
 )
 
-func WikitableSwisstableMatchesPickOut(mccontent MatchTable) ([]liquiwrap.CompletedMatch, error) {
-	var matches []liquiwrap.CompletedMatch
+func WikitableSwisstableMatchesPickOut(mccontent MatchTable) ([]content.CompletedMatch, error) {
+	var matches []content.CompletedMatch
 	res := make(map[string]string)
 	var seekTRMode bool
 	var seekTDMode bool
@@ -77,8 +77,8 @@ func WikitableSwisstableMatchesPickOut(mccontent MatchTable) ([]liquiwrap.Comple
 	return matches, nil
 }
 
-func MarshalSwissMapToStruct(matches []liquiwrap.CompletedMatch, info map[string]string) ([]liquiwrap.CompletedMatch, error) {
-	var match liquiwrap.CompletedMatch
+func MarshalSwissMapToStruct(matches []content.CompletedMatch, info map[string]string) ([]content.CompletedMatch, error) {
+	var match content.CompletedMatch
 	b, err := json.Marshal(info)
 	if err != nil {
 		return nil, err

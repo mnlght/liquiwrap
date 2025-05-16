@@ -1,18 +1,18 @@
 package decomposition_tools
 
 import (
-	"github.com/mnlght/liquiwrap"
+	"github.com/mnlght/liquiwrap/content"
 	"golang.org/x/net/html"
 	"io"
 	"strings"
 )
 
-func CollectTournamentMetaList(r io.Reader, game string) []liquiwrap.Tournament {
+func CollectTournamentMetaList(r io.Reader, game string) []content.Tournament {
 	tokenizer := html.NewTokenizer(r)
 	var err error
 	var remo bool
-	var el liquiwrap.Tournament
-	var ts []liquiwrap.Tournament
+	var el content.Tournament
+	var ts []content.Tournament
 	var headerLinkSeek bool
 	var inLinkNow bool
 	var dateSeek bool
@@ -113,7 +113,7 @@ func CollectTournamentMetaList(r io.Reader, game string) []liquiwrap.Tournament 
 						prizeSeek = false
 					}
 
-					el = liquiwrap.Tournament{}
+					el = content.Tournament{}
 					el.Game = game
 
 					if remo == false {
