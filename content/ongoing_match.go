@@ -3,7 +3,6 @@ package content
 import "time"
 
 type OngoingMatch struct {
-	ID             string
 	TeamLeft       string
 	TeamRight      string
 	Score          string

@@ -1,8 +1,6 @@
 package decomposition_tools
 
 import (
-	"crypto/sha1"
-	"encoding/hex"
 	"fmt"
 	"github.com/mnlght/liquiwrap/content"
 	"golang.org/x/net/html"
@@ -40,9 +38,6 @@ func BrktsBracketMatchesPickOut(mccontent MatchTable, game string) ([]content.Co
 	go func() {
 		for v := range combineCh {
 			v.Game = game
-			h := sha1.New()
-			h.Write([]byte(fmt.Sprintf("%s-%s-%s-%s", v.Game, v.TeamLeft, v.TeamRight, v.Date)))
-			v.ID = hex.EncodeToString(h.Sum(nil))
 			matches = append(matches, v)
 		}
 		combinedCh <- matches

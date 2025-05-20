@@ -3,7 +3,6 @@ package content
 import "time"
 
 type CompletedMatch struct {
-	ID             string     `json:"id"`
 	MatchPage      string     `json:"matchPage"`
 	Date           time.Time  `json:"date"`
 	Game           string     `json:"game"`

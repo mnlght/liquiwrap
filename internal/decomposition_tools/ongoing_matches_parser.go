@@ -1,9 +1,6 @@
 package decomposition_tools
 
 import (
-	"crypto/sha1"
-	"encoding/hex"
-	"fmt"
 	"github.com/mnlght/liquiwrap/content"
 	"golang.org/x/net/html"
 	"io"
@@ -32,9 +29,6 @@ func OngoingMatchesPickOut(r io.Reader, game string) ([]content.OngoingMatch, er
 		for v := range combineCh {
 			if v.TournamentName != "" {
 				v.Game = game
-				h := sha1.New()
-				h.Write([]byte(fmt.Sprintf("%s-%s-%s-%s", v.Game, v.TeamLeft, v.TeamRight, v.DateStart)))
-				v.ID = hex.EncodeToString(h.Sum(nil))
 				matches = append(matches, v)
 			}
 		}

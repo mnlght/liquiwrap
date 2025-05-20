@@ -1,8 +1,6 @@
 package decomposition_tools
 
 import (
-	"crypto/sha1"
-	"encoding/hex"
 	"fmt"
 	"github.com/mnlght/liquiwrap/content"
 	"golang.org/x/net/html"
@@ -32,14 +30,12 @@ func OngoingMatchesCSPickOut(r io.Reader) ([]content.OngoingMatch, error) {
 	go func() {
 		am := make(map[string]bool)
 		for v := range combineCh {
-			h := sha1.New()
-			h.Write([]byte(fmt.Sprintf("%s-%s-%s-%s", v.Game, v.TeamLeft, v.TeamRight, v.DateStart)))
-			v.ID = hex.EncodeToString(h.Sum(nil))
+			d := fmt.Sprintf("%s-%s-%s-%s", v.Game, v.TeamLeft, v.TeamRight, v.DateStart)
 			v.Game = "counterstrike"
-			if _, ok := am[v.ID]; !ok {
+			if _, ok := am[d]; !ok {
 				matches = append(matches, v)
 			}
-			am[v.ID] = true
+			am[d] = true
 		}
 		combinedCh <- matches
 		close(combinedCh)
